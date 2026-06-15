@@ -46,12 +46,25 @@ class StoryProvider extends ChangeNotifier {
     }
   }
 
+  // void checkAnswer(String selectedAnswer) {
+  //   if (selectedAnswer ==
+  //       AppConstants.quizJson["answer"]) {
+  //     isSuccess = true;
+  //     feedbackMessage = "Correct Answer!";
+  //   } else {
+  //     feedbackMessage = "Oops! Try Again.";
+  //   }
+  //
+  //   notifyListeners();
+  // }
+
   void checkAnswer(String selectedAnswer) {
     if (selectedAnswer ==
         AppConstants.quizJson["answer"]) {
       isSuccess = true;
       feedbackMessage = "Correct Answer!";
     } else {
+      isSuccess = false; // IMPORTANT
       feedbackMessage = "Oops! Try Again.";
     }
 

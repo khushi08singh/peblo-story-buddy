@@ -8,9 +8,36 @@ import '../widgets/buddy_character.dart';
 import '../widgets/story_card.dart';
 import '../widgets/quiz_card.dart';
 import 'package:flutter/services.dart';
+import 'package:confetti/confetti.dart';
 
-class HomeScreen extends StatelessWidget {
+// class HomeScreen extends StatelessWidget {
+//   const HomeScreen({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late ConfettiController _confettiController;
+
+  @override
+  void initState() {
+    super.initState();
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 3),
+    );
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +52,19 @@ class HomeScreen extends StatelessWidget {
         title: const Text("Peblo Story Buddy"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      // body: SingleChildScrollView(
+      body: Stack(
+        children: [
+        Align(
+        alignment: Alignment.topCenter,
+        child: ConfettiWidget(
+          confettiController: _confettiController,
+          blastDirectionality: BlastDirectionality.explosive,
+          shouldLoop: false,
+        ),
+      ),
+
+      SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
@@ -84,9 +123,16 @@ class HomeScreen extends StatelessWidget {
               QuizCard(
                 quiz: quiz,
                 onAnswerSelected: (answer) {
+                  // provider.checkAnswer(answer);
+                  //
+                  // if (!provider.isSuccess) {
+                  //   HapticFeedback.mediumImpact();
+                  // }
                   provider.checkAnswer(answer);
 
-                  if (!provider.isSuccess) {
+                  if (provider.isSuccess) {
+                    _confettiController.play();
+                  } else {
                     HapticFeedback.mediumImpact();
                   }
                 },
@@ -94,6 +140,9 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+      ],
+      ),
     );
+
   }
 }
