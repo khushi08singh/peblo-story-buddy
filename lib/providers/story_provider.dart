@@ -9,6 +9,7 @@ class StoryProvider extends ChangeNotifier {
   bool isSpeaking = false;
   bool showQuiz = false;
   bool isSuccess = false;
+  bool shouldShake = false;
 
   String? errorMessage;
   String? feedbackMessage;
@@ -62,9 +63,11 @@ class StoryProvider extends ChangeNotifier {
     if (selectedAnswer ==
         AppConstants.quizJson["answer"]) {
       isSuccess = true;
+      shouldShake = false;
       feedbackMessage = "Correct Answer!";
     } else {
       isSuccess = false; // IMPORTANT
+      shouldShake = true;
       feedbackMessage = "Oops! Try Again.";
     }
 
