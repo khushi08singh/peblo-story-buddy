@@ -12,11 +12,26 @@ class BuddyCharacter extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 500),
-      child: Text(
-        isHappy ? "🤖🎉" : "🤖",
+      child: SizedBox(
         key: ValueKey(isHappy),
-        style: const TextStyle(
-          fontSize: 100,
+        height: 240,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/images/robot.png",
+              height: 230,
+            ),
+
+            if (isHappy)
+              const Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Text(
+                  "🎉",
+                  style: TextStyle(fontSize: 70),
+                ),
+              ),
+          ],
         ),
       ),
     );

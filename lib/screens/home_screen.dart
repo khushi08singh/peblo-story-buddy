@@ -47,13 +47,26 @@ class _HomeScreenState extends State<HomeScreen> {
     QuizModel.fromJson(AppConstants.quizJson);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F3FF),
+      // backgroundColor: const Color(0xFFF7F3FF),
       appBar: AppBar(
         title: const Text("Peblo Story Buddy"),
         centerTitle: true,
       ),
       // body: SingleChildScrollView(
-      body: Stack(
+      // body: Stack(
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFFF1E8FF),
+                Color(0xFFCFBEEA),
+                Color(0xFFABC8F1),
+              ],
+            ),
+          ),
+          child: Stack(
         children: [
         Align(
         alignment: Alignment.topCenter,
@@ -80,13 +93,29 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.infinity,
               height: 55,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF7B61FF),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
                 onPressed: provider.isLoading
                     ? null
                     : () async {
                   await provider.readStory();
                 },
                 child: provider.isLoading
-                    ? const CircularProgressIndicator()
+                    ? const SizedBox(
+                  width: 22,
+                  height: 22,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                    color: Colors.white,
+                  ),
+                )
+                // const CircularProgressIndicator()
+
                     : const Text(
                   "Read Me a Story",
                 ),
@@ -98,6 +127,21 @@ class _HomeScreenState extends State<HomeScreen> {
             const StoryCard(
               storyText: AppConstants.storyText,
             ),
+            if (provider.errorMessage != null)
+              Container(
+                margin: const EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.red.shade100,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  provider.errorMessage!,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
 
             const SizedBox(height: 20),
 
@@ -142,6 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       ],
       ),
+        ),
     );
 
   }
